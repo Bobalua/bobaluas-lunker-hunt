@@ -1,8 +1,5 @@
-import { argv } from "process";
 import { stdin, stdout } from "process";
-import * as fs from "node:fs/promises";
 import * as readline from 'node:readline/promises';
-
 import PlayerInventory from "./inventory.js";
 
 // 1. the question to be asked to the user
@@ -18,19 +15,24 @@ console.log("Whatchu' gonna do? Fish?");
 const playerInventory = new PlayerInventory();
 playerInventory.add("fishing pole");
 
-let fishSwitch = true;
+const fishList = ["bluegill", "bass", "sunfish",
+    "crappie", "perch", "pike", 
+    "salmon", "muskellunge", "carp", 
+    "walleye"];
+
+
 while (true) {
     const inputs = (await rl.question("> "));
     const command = inputs;
-    if (command == "fish" && fishSwitch == true)  {
-        fishSwitch = false;
-        console.log("Nothing this time!");
-    }else if (command == "fish" && fishSwitch == false) {
-        fishSwitch = true;
-        playerInventory.add("bluegill");
-        console.log("You caught a bluegill!");
-    }else if (command == "inventory") {
+    if (command == "fish")  {
+        const randomNum = random(10);
+        console.log("You caught a " + fishList[randomNum] + "!");
+        playerInventory.add(fishList[randomNum]);
+    } else if (command == "inventory") {
         console.log(playerInventory.list());
     }
 }
 
+function random(max) {
+    return Math.floor((Math.random() * max));
+}
