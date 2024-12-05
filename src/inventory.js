@@ -23,6 +23,8 @@ export default class PlayerInventory {
         return itemRemoved;
     }
     
+    
+
     list() {
         return this.inventoryContents;
     }
