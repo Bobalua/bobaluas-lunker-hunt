@@ -2,7 +2,7 @@ import { stdin, stdout } from "process";
 import * as readline from 'node:readline/promises';
 import PlayerInventory from "./inventory.js";
 
-// 1. the question to be asked to the user
+// TODO ask the user their name.  Use player name in game
 const rl = readline.createInterface({
     input: stdin,
     output: stdout
@@ -15,19 +15,17 @@ console.log("Whatchu' gonna do? Cast?");
 const playerInventory = new PlayerInventory();
 playerInventory.add("fishing pole");
 
-// TODO add freshwater hamachi as super rare fish so Bagelo feels like part of the team
 const fishList = ["bluegill", "largemouth bass", "sunfish",
     "crappie", "perch", "northern pike", 
     "king salmon", "tiger muskie", "carp", 
     "walleye"];
+// TODO make fish into objects
+// TODO make quality tiers
+    // TODO quality tiers can be expressed as multipliers
 let daysRemaining = 30;
 let castsToday = 0;
 let purse = 0;
 // TODO add time element
-    // 7 'casts' in a day
-    // let castsToday = 0
-    // 30 days 
-    // let daysRemaining = 30
     // if the player has enough coins after 30 days, they can leave the island
     // if they don't have enough coins they become the rare fish for subsequent playthroughs
     // excess money is the players final score
@@ -36,6 +34,13 @@ while (daysRemaining > 0) {
     const inputs = (await rl.question("> "));
     const command = inputs;
     if (command == "cast")  {
+        if (playerInventory.has("fishing pole") == false) {
+            console.log("How are you supposed to fish without a fishing pole you idiot?");
+            console.log(".\n.\n.\n.\n.");
+            console.log("You made a new one, but it took the whole day.");
+            playerInventory.add("fishing pole");
+            castsToday = 8; 
+        }
         if (castsToday < 8) {
             const randomNum = random(10);
             console.log("You caught a " + fishList[randomNum] + "!");
@@ -46,12 +51,14 @@ while (daysRemaining > 0) {
             castsToday = 0;
             console.log("You ran out of daylight.\nTime to sleep on the beach like a bum.");
             console.log(daysRemaining + " days remaining. Go catch some fish!");
-        }    
+        }  
+    // TODO inventory capacity 
+        // TODO inform player when they reach limit
+        // TODO do not add fish when they are at inventory limit      
     } else if (command == "inventory") {
-       // TODO make fishing return no fish and a message telling
-            // the player why without fishing pole in inventory
         console.log(playerInventory.list());
         console.log(purse + " coins in your purse");
+    // TODO have price variations that change by the day.
     } else if (command == "shop") {
         console.log("Welcome to Flesh and Fin! ");
         let shopkeepQuestion = "What would you like to sell me today? ";

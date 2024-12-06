@@ -23,7 +23,15 @@ export default class PlayerInventory {
         return itemRemoved;
     }
     
-    
+    has(item) {
+        for (let i=0; i < this.inventoryContents.length; i++) {
+            const currentItem = this.inventoryContents[i];
+            if (item == currentItem) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     list() {
         return this.inventoryContents;
