@@ -2,17 +2,20 @@ import { stdin, stdout } from "process";
 import * as readline from 'node:readline/promises';
 import PlayerInventory from "./inventory.js";
 
-// TODO ask the user their name.  Use player name in game
 const rl = readline.createInterface({
     input: stdin,
     output: stdout
 });
 
 console.log("Welcome to Bobalua's Lunker Hunt!");
-console.log("You only got 30 days to get off this here island.");
-console.log("Whatchu' gonna do? Cast?");
+console.log("What is your name?");
 
-const playerInventory = new PlayerInventory();
+let name = (await rl.question("> ")) || 'fisher';
+
+console.log("You only got 30 days to get off this here island.");
+console.log("Whatchu' gonna do, " + name + ". Cast?");
+
+const playerInventory = new PlayerInventory(); 
 playerInventory.add("fishing pole");
 
 const fishList = ["bluegill", "largemouth bass", "sunfish",
@@ -25,8 +28,6 @@ const fishList = ["bluegill", "largemouth bass", "sunfish",
 let daysRemaining = 30;
 let castsToday = 0;
 let purse = 0;
-// TODO add time element
-    // if the player has enough coins after 30 days, they can leave the island
     // if they don't have enough coins they become the rare fish for subsequent playthroughs
     // excess money is the players final score
 // TODO create leaderboard
@@ -38,13 +39,23 @@ while (daysRemaining > 0) {
             console.log("How are you supposed to fish without a fishing pole you idiot?");
             console.log(".\n.\n.\n.\n.");
             console.log("You made a new one, but it took the whole day.");
-            playerInventory.add("fishing pole");
+
+            
+            if (playerInventory.add("fishing pole") == false) {
+                playerInventory.empty();
+                console.log("All the fish you had have spoiled. Nice work.");
+                playerInventory.add("fishing pole");
+            }
+
             castsToday = 8; 
         }
         if (castsToday < 8) {
             const randomNum = random(10);
             console.log("You caught a " + fishList[randomNum] + "!");
-            playerInventory.add(fishList[randomNum]);
+            // playerInventory.add(fishList[randomNum]);
+            if (playerInventory.add(fishList[randomNum]) == false) {
+                console.log("You can't hold any more fish.\nGotta throw it back.")
+            }
             castsToday = castsToday + 1;
         } else {
             daysRemaining = daysRemaining - 1;

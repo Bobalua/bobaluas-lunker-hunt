@@ -6,7 +6,12 @@ export default class PlayerInventory {
     }
 
     add(item) {
+        let limit = 5
+        if (this.inventoryContents.length > limit) {
+            return false;
+        }
         this.inventoryContents.push(item);
+        return true;
     }
 
     remove(item) {
@@ -35,5 +40,9 @@ export default class PlayerInventory {
 
     list() {
         return this.inventoryContents;
+    }
+
+    empty() {
+        this.inventoryContents = [];
     }
 }
