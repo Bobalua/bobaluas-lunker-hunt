@@ -23,13 +23,17 @@ const fishList = ["bluegill", "largemouth bass", "sunfish",
     "king salmon", "tiger muskie", "carp", 
     "walleye"];
 // TODO make fish into objects
+//  - using amount as a property of the fish will require a new inventory system altogether
+//      -why not use the array for inventory and the instance properties as reference for other functionality?
 // TODO make quality tiers
     // TODO quality tiers can be expressed as multipliers
 let daysRemaining = 30;
 let castsToday = 0;
 let purse = 0;
-    // if they don't have enough coins they become the rare fish for subsequent playthroughs
-    // excess money is the players final score
+    // -if they don't have enough coins they become the rare fish for subsequent playthroughs
+    //   -hamachi.name = ${name}
+    //      -will need to permanently save new name
+    // -excess money is the players final score
 // TODO create leaderboard
 while (daysRemaining > 0) {
     const inputs = (await rl.question("> "));
@@ -94,7 +98,16 @@ while (daysRemaining > 0) {
     }
 }
 // TODO give player final score and show leaderboard
+    // -will require creating a file and tiering scores by number
+    //      -array.sort? (or something similar)
+    // -only a certain number of scores will be stored
+    //      -array.splice(9)
+    // -need to look back at 'fs' from grocery master
 // TODO ask player if they would like to play again
+    // -rl.question
+    // -'no' will exit program
+    // -'yes' will reset inventory, days remaining, and purse and return to 
+    //      log from beginning of game
 console.log("Time's up! If you don't have 100 coins, I'll give you fins!");
 if (purse >= 100) {
     console.log("Lucky. Take this raft and get the hell off my island.");
