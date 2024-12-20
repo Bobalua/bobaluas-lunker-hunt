@@ -63,9 +63,7 @@ while (daysRemaining > 0) {
             console.log("You ran out of daylight.\nTime to sleep on the beach like a bum.");
             console.log(daysRemaining + " days remaining. Go catch some fish!");
         }  
-    // TODO inventory capacity 
-        // TODO inform player when they reach limit
-        // TODO do not add fish when they are at inventory limit      
+      
     } else if (command == "inventory") {
         console.log(playerInventory.list());
         console.log(purse + " coins in your purse");
@@ -89,6 +87,10 @@ while (daysRemaining > 0) {
         }
 
         console.log('Bye bitch');
+    } else if ( command == "days remaining") {
+        console.log(daysRemaining);
+    } else if ( command == "casts remaining") {
+        console.log(7 - castsToday);
     }
 }
 // TODO give player final score and show leaderboard
