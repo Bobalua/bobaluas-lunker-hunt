@@ -101,7 +101,7 @@ while (daysRemaining > 0) {
     // -will require creating a file and tiering scores by number
     //      -array.sort? (or something similar)
     // -only a certain number of scores will be stored
-    //      -array.splice(9)
+    //      -array.splice(10)
     // -need to look back at 'fs' from grocery master
 // TODO ask player if they would like to play again
     // -rl.question
@@ -115,6 +115,8 @@ if (purse >= 100) {
     console.log("I hope you can swim. You are going to be here for a long time");
     console.log("YOU ARE NOW A FISH! GAME OVER!");
 }
+// 'reset' method
+//  -reset state variables; reset arrays
 function random(max) {
     return Math.floor((Math.random() * max));
 }

@@ -12,10 +12,12 @@ class Shape {
 
     destroyShape() {
         if (this.sides > 0) {
-            this.sides = 0;         // Not sure why this doesn't change sqare.sides to 0 when called (line 46)
+            this.sides = 0;         
         }
     }
 }
+
+
 
 let square = new Shape("square", 4);
 
@@ -27,9 +29,6 @@ let noShape = new Shape("no shape", 0);
     -if sides become zero, remove both entries from array
 */
 const shapesWithSides =[];
-
-// not sure if there is a way to look at all similar properties of objects of a specific class, instead of
-// creating indivicual conditionals for each instance
 
 if (square.sides > 0) {
     shapesWithSides.push(square.name, square.sides);
@@ -43,7 +42,7 @@ if (noShape.sides > 0) {
 
 console.log(shapesWithSides);
 
-square.destroyShape;
+square.destroyShape();
 
 console.log(`This sqare has ${square.sides} sides`); //debug
 
@@ -59,17 +58,20 @@ if (noShape.sides > 0) {
 
 console.log(shapesWithSides);
 
-shapesWithSides.splice(4, 2);
+// shapesWithSides.splice(4, 2);
 
 console.log(shapesWithSides);
 
-for (let i=0; i < shapesWithSides.length; i++) {
+for (let i=shapesWithSides.length; i >= 0; i--) {
     if (shapesWithSides[i] == "triangle") {
         shapesWithSides.splice(i, 2);
     }
 }
+// found an edge!!!
 
 console.log(shapesWithSides);
-// the for loop finds a triangle at index position '2' and removes it and the following value from array,
-// then the following triangle collapses into the index position that was already checked by the for loop.
-// so the triangle remains in the array unless the for loop is run again.
+
+function comparator(a, b) {
+    return a-b
+}
+

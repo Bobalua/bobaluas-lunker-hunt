@@ -1,9 +1,8 @@
 // This is purely a playground for me to play around with the concepts of classes and objects
 
 
-// TODO mess with static methods possibly?
-// TODO figure out how to export class for use in other programs
-// TODO mess with get and set
+
+// TODO mess with getters and setters
 
 class Animal {
     constructor (_name, _color, _sound, _dangerToHumanity, _numberOfLegs) {
@@ -22,19 +21,19 @@ class Animal {
             console.log("You should be fine. But trust no one.");
         }
     }
+    // conceptually, this should be outside of the class, as it has instance properties called.
         lieDetector() {
         if (snake.dangerToHumanity == false) {
             console.log("You are a liar");
             snake.dangerToHumanity = true;
             console.log("They are everywhere");
             console.log("They will always be a danger to humanity");
-            }
-            else {
+            } else {
                 console.log("good to go");
             }
     }    
 }
-// Polymorphism could be demonstrated with this extended class
+
 class Cryptid extends Animal {
     constructor (_name, _color, _sound, _dangerToHumanity,_numberOfLegs, _exists) {
         super (_name, _color, _sound, _dangerToHumanity, _numberOfLegs)
@@ -48,6 +47,7 @@ class Cryptid extends Animal {
         }
     }
     isThisDangerous() {
+        // super.isThisDangerous(); 
         console.log("BigFoot isn't real you dummy");
         }
     }
@@ -79,5 +79,3 @@ bigFoot.doesThisExist();
 
 dog.isThisDangerous();
 bigFoot.isThisDangerous();
-
-// Isn't this polymorphism?
