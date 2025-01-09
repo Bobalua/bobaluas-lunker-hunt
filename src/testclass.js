@@ -1,17 +1,17 @@
 // This is purely a playground for me to play around with the concepts of classes and objects
 
 
-// TODO mess with static methods possibly?
-// TODO figure out how to export class for use in other programs
-// TODO mess with get and set
+
+// TODO mess with getters and setters
 
 class Animal {
-    constructor (_name, _color, _sound, _dangerToHumanity) {
+    constructor (_name, _color, _sound, _dangerToHumanity, _numberOfLegs) {
         this.name = _name;
         this.color = _color;
         this.sound = _sound;
-        this.dangerToHumanity = _dangerToHumanity
+        this.dangerToHumanity = _dangerToHumanity;
         this.dangerToHumanity = false;
+        this.numberOfLegs = _numberOfLegs
     }
 
     isThisDangerous() {
@@ -21,22 +21,22 @@ class Animal {
             console.log("You should be fine. But trust no one.");
         }
     }
+    // conceptually, this should be outside of the class, as it has instance properties called.
         lieDetector() {
         if (snake.dangerToHumanity == false) {
             console.log("You are a liar");
             snake.dangerToHumanity = true;
             console.log("They are everywhere");
             console.log("They will always be a danger to humanity");
-            }
-            else {
+            } else {
                 console.log("good to go");
             }
     }    
 }
-// Polymorphism could be demonstrated with this extended class
+
 class Cryptid extends Animal {
-    constructor (_name, _color, _sound, _dangerToHumanity, _exists) {
-        super (_name, _color, _sound, _dangerToHumanity)
+    constructor (_name, _color, _sound, _dangerToHumanity,_numberOfLegs, _exists) {
+        super (_name, _color, _sound, _dangerToHumanity, _numberOfLegs)
         this.exists = _exists;
     }
     doesThisExist() {
@@ -46,12 +46,16 @@ class Cryptid extends Animal {
             console.log("This is not a real animal");
         }
     }
-}
-let dog = new Animal("Charley", "gold", "woof", false);
+    isThisDangerous() {
+        // super.isThisDangerous(); 
+        console.log("BigFoot isn't real you dummy");
+        }
+    }
+let dog = new Animal("Charley", "gold", "woof", false, 4);
 
-let snake = new Animal("who cares", "danger color", "danger sound", true);
+let snake = new Animal("who cares", "danger color", "danger sound", true, 0);
 
-let bigFoot = new Cryptid("bigfoot", "brown", "sensual bellowing", false, false)
+let bigFoot = new Cryptid("bigfoot", "brown", "sensual bellowing", false, 2, false);
 
 console.log("Is " + dog.name + " a danger to humanity?");
 if (dog.dangerToHumanity == true) {
@@ -61,7 +65,7 @@ if (dog.dangerToHumanity == true) {
 }
 
 console.log("Snake's name is " + snake.name);
-console.log(`Snake's color is $snake.color`); // I am doing something dumb and it isn't printing the instance property
+console.log(`Snake's color is ${snake.color}`);
 console.log("snake's sound is " + snake.sound );
 console.log("Is " + snake.name + " a danger to humanity?")
 if (snake.dangerToHumanity == true) {
@@ -72,3 +76,6 @@ if (snake.dangerToHumanity == true) {
 snake.lieDetector();
 
 bigFoot.doesThisExist();
+
+dog.isThisDangerous();
+bigFoot.isThisDangerous();
