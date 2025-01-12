@@ -1,40 +1,61 @@
 import { stdin, stdout } from "process";
 import * as readline from 'node:readline/promises';
 import PlayerInventory from "./inventory.js";
+import fs from "fs";
 
 const rl = readline.createInterface({
     input: stdin,
     output: stdout
 });
 
+let state;
+
+ try {
+    fs.accessSync('src/state.json', fs.constants.W_OK);
+    //now that I have a readfile outside of this scope, I think this could be changed to an access check
+    // const data = fs.readFileSync('src/state.json', 'utf8');
+    // const state = JSON.parse(data);
+    // state.hamachi = 'hamachi'; //If the state file exists, this will overwrite existing values
+    // state.leaderboard = [];    //Pretty sure this can be deleted
+    // console.log(state); //debug
+ } catch (err) {
+    console.error('Here we go...', err);
+    const initialState = { hamachi: 'hamachi', leaderboard: []};
+    fs.writeFileSync('src/state.json', JSON.stringify(initialState, null, 2));
+    // console.log(err);//debug
+ }
+try {
+    const data = fs.readFileSync('src/state.json', 'utf8');
+    state = JSON.parse(data);
+} catch (err) {
+    console.error('Unexpected Error. Goodbye', err);
+    process.exit(1);
+}
+
+
+
 console.log("Welcome to Bobalua's Lunker Hunt!");
 console.log("What is your name?");
 
-let name = (await rl.question("> ")) || 'fisher';
+let playerName = (await rl.question("> ")) || 'fisher';
 
 console.log("You only got 30 days to get off this here island.");
-console.log("Whatchu' gonna do, " + name + ". Cast?");
+console.log("Whatchu' gonna do, " + playerName + ". Cast?");
 
 const playerInventory = new PlayerInventory(); 
 playerInventory.add("fishing pole");
 
 const fishList = ["bluegill", "largemouth bass", "sunfish",
     "crappie", "perch", "northern pike", 
-    "king salmon", "tiger muskie", "carp", 
-    "walleye"];
+    "king salmon", "carp", 
+    "walleye", state.hamachi];
 // TODO make fish into objects
-//  - using amount as a property of the fish will require a new inventory system altogether
-//      -why not use the array for inventory and the instance properties as reference for other functionality?
 // TODO make quality tiers
     // TODO quality tiers can be expressed as multipliers
-let daysRemaining = 30;
+let daysRemaining = 1;//changed for debugging
 let castsToday = 0;
-let purse = 0;
-    // -if they don't have enough coins they become the rare fish for subsequent playthroughs
-    //   -hamachi.name = ${name}
-    //      -will need to permanently save new name
-    // -excess money is the players final score
-// TODO create leaderboard
+let purse = 69420;//changed for debugging
+
 while (daysRemaining > 0) {
     const inputs = (await rl.question("> "));
     const command = inputs;
@@ -97,26 +118,56 @@ while (daysRemaining > 0) {
         console.log(7 - castsToday);
     }
 }
-// TODO give player final score and show leaderboard
-    // -will require creating a file and tiering scores by number
-    //      -array.sort? (or something similar)
-    // -only a certain number of scores will be stored
-    //      -array.splice(10)
-    // -need to look back at 'fs' from grocery master
+
 // TODO ask player if they would like to play again
     // -rl.question
     // -'no' will exit program
     // -'yes' will reset inventory, days remaining, and purse and return to 
     //      log from beginning of game
-console.log("Time's up! If you don't have 100 coins, I'll give you fins!");
+if (daysRemaining == 0) {
+    let playerScore = (purse - 100);
+    if (playerScore > 0) {
+        state.leaderboard.push(playerName, playerScore);
+        state.leaderboard.splice();
+        state.leaderboard.sort((a,b) => b - a);
+        //will need to figure out how to sort just based on the odd number indexing
+        //(or a different method of storing the scoreboard)
+        //possibly just scores and no names
+    } else if (playerScore <= 0) {
+        state.hamachi = playerName;
+    }
+}
+
+fs.writeFileSync('src/state.json', JSON.stringify(state, null, 2));
+
+    console.log("Time's up! If you don't have 100 coins, I'll give you fins!");
 if (purse >= 100) {
     console.log("Lucky. Take this raft and get the hell off my island.");
+    console.log('Game Over');
+    console.log(state.leaderboard);
 } else {
     console.log("I hope you can swim. You are going to be here for a long time");
     console.log("YOU ARE NOW A FISH! GAME OVER!");
+    console.log(state.leaderboard);
 }
-// 'reset' method
-//  -reset state variables; reset arrays
+
+let endQuestion = await rl.question('Would you like to play again?');
+if (endQuestion == 'no') {
+    process.exit(0);//I thought process was a global object?  Unsure about this problem
+} else if (endQuestion == 'yes') {
+    reset();
+    //Still need to figure out how to return to the top of that application should the user want to play again
+}
+
 function random(max) {
     return Math.floor((Math.random() * max));
 }
+
+function reset() {
+    purse = 0;
+    daysRemaining = 30;
+    castsToday = 0;
+    playerInventory.empty();
+    playerInventory.add('fishing pole');
+}
+ //cannot figure out why this is throwing an error

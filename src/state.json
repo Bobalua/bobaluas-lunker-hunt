@@ -1,5 +1,7 @@
 {
-  "islandName": "unknown",
-  "waterPresent": true,
-  "boatsPresent": 8
+  "hamachi": "test",
+  "leaderboard": [
+    "hamachi",
+    69320
+  ]
 }

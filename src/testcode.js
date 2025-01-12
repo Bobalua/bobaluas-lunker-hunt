@@ -12,14 +12,21 @@ try {
 
     console.log(state);
 
-    state.boatsPresent += 1;
+    if (state.boatsPresent <= 9) {
+        state.boatsPresent += 1
+    } else {
+        state.boatsPresent = 0
+    }
+        
+    const lookingFor = 'islandName';
+    if (lookingFor in state) {
+        console.log(`island is named ${state}`);
+    } else {
+        console.log(`this island has no name`);
+    }
 
     fs.writeFileSync('src/state.json', JSON.stringify(state, null, 2));
-
 
 } catch (err) {
     console.error(err);
 }
-
-
-
