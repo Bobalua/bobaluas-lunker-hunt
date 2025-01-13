@@ -1,7 +1,25 @@
 {
-  "hamachi": "test",
+  "hamachi": "Lindy",
   "leaderboard": [
-    "hamachi",
-    69320
+    {
+      "name": "poop",
+      "score": 69320
+    },
+    {
+      "name": "butt",
+      "score": 69320
+    },
+    {
+      "name": "toes",
+      "score": 69320
+    },
+    {
+      "name": "joe",
+      "score": 69320
+    },
+    {
+      "name": "Lindy",
+      "score": 10
+    }
   ]
 }
